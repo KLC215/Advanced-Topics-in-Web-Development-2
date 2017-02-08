@@ -13,6 +13,7 @@
 				<option value="">Choose Model</option>
 				<option value="LPG Coaster">LPG Coaster</option>
 				<option value="Evora S">Evora S</option>
+				<option value="Route 29">Route 29</option>
 			</select>
 			<button type="submit">Submit</button>
 		</form>
@@ -86,6 +87,9 @@ if (isset($_GET['model']) && $_GET['model'] != '') {
 			break;
 		case 'Evora S':
 			carDetails();
+			break;
+		case 'Route 29':
+			bicycleDetails();
 			break;
 	}
 } else {
