@@ -11,7 +11,7 @@ class Connection
 	public static function make()
 	{
 		try {
-			return new mysqli('localhost', 'root', 'root', 'w6');
+			return new mysqli($db_host, $db_user, $db_password, $db_name);
 		} catch (Exception $e) {
 			die($e->getMessage());
 		}
