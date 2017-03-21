@@ -7,6 +7,8 @@ class Restful
 	private $db;
 	private $xml;
 
+	const DATE_FORMAT = "j F Y g:i";
+
 	public function __construct()
 	{
 		$this->db = Connection::make();
@@ -60,7 +62,7 @@ class Restful
 		die();
 	}
 
-	public function convertCurrency($request = [])
+	private function convertCurrency($request = [])
 	{
 		$result = $this->db->query(
 			"SELECT *
@@ -93,26 +95,26 @@ class Restful
 		$rate = $data[1]['rate'] / $data[0]['rate'];
 
 		$this->xml->responseConvertedCurrency('conv', $data, [
-			'at'     => date("j F Y g:i"),
+			'at'     => date(self::DATE_FORMAT),
 			'rate'   => $rate,
 			'amount' => $request['amount'],
 		]);
 
 	}
 
-	public function get($code)
+	private function get($code)
 	{
 		$result = $this->checkNotExistCode($code);
 
 		$this->xml->responseCRUD(
 			'get',
 			$result->fetch_assoc(),
-			date("j F Y g:i")
+			date(self::DATE_FORMAT)
 		);
 
 	}
 
-	public function post($data = [])
+	private function post($data = [])
 	{
 		$this->checkExistingCode($data['code']);
 
@@ -124,11 +126,11 @@ class Restful
 		$this->xml->responseCRUD(
 			'post',
 			$data,
-			date("j F Y g:i")
+			date(self::DATE_FORMAT)
 		);
 	}
 
-	public function put($data = [])
+	private function put($data = [])
 	{
 		$result = $this->db->query(
 			"SELECT * 
@@ -149,12 +151,12 @@ class Restful
 			$this->xml->responseCRUD(
 				'put',
 				$data,
-				date("j F Y g:i")
+				date(self::DATE_FORMAT)
 			);
 		}
 	}
 
-	public function delete($code)
+	private function delete($code)
 	{
 		$result = $this->checkNotExistCode($code);
 
@@ -166,7 +168,7 @@ class Restful
 		$this->xml->responseCRUD(
 			'delete',
 			$result->fetch_assoc(),
-			date("j F Y g:i")
+			date(self::DATE_FORMAT)
 		);
 	}
 
@@ -183,6 +185,7 @@ class Restful
 				'code'    => 1002,
 				'message' => 'Currency Code Exist!',
 			]);
+			die();
 		}
 	}
 
